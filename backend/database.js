@@ -11,7 +11,7 @@ function connectToDatabase() {
     if (err) {
       console.error('Error opening database', err);
     } else {
-      console.log('Connected to the SQLite database.');
+      //console.log('Connected to the SQLite database.');
     }
   });
 }
