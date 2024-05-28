@@ -9,7 +9,7 @@ export default {
     fontFamily: {
       'montserrat': 'Montserrat, sans-serif',
       'jost': 'Jost, sans-serif' 
-    }
+    },
   },
   plugins: [],
 }
