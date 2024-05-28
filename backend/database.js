@@ -1,10 +1,13 @@
 const sqlite3 = require('sqlite3').verbose();
-const dotenv = require('dotenv');
+//const dotenv = require('dotenv');
 
-dotenv.config();
+//dotenv.config();
+
+// process.env.DATABASE_URL
+// usually I'd use .env for storing it but it's a local sqlite db so we'll just connect it like this ;)
 
 function connectToDatabase() {
-  return new sqlite3.Database(process.env.DATABASE_URL, (err) => {
+  return new sqlite3.Database("./db/tasks.db", (err) => {
     if (err) {
       console.error('Error opening database', err);
     } else {
