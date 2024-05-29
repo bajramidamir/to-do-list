@@ -75,17 +75,35 @@ const App = () => {
     .catch(error => console.error('Error updating task:', error));
   };
 
+  const updateTaskTitle = (taskId, newTitle) => {
+    const task = tasks.find(task => task.id === taskId);
+    const updatedTask = { ...task, title: newTitle };
+
+    fetch(`http://localhost:5000/api/tasks/${taskId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(updatedTask)
+    })
+    .then(() => {
+      const updatedTasks = tasks.map(t => (t.id === taskId ? updatedTask : t));
+      setTasks(updatedTasks);
+    })
+    .catch(error => console.error('Error updating task:', error));
+  };
+
 
   return (
     <div className="min-h-screen font-jost flex flex-col items-center bg-gradient-to-br from-teal-800 to-teal-500">
       <Header />
-      <div className="flex flex-col items-center justify-center w-full px-4">
+      <div className="flex flex-col items-center justify-center w-full max-w-lg px-4">
         <InputField addTask={addTask} />
         <div className="w-full my-4 border-b border-gray-300" />
         <div className="flex justify-between w-full mb-4">
         </div>
         <div className="flex flex-col items-center w-full">
-          <TaskList tasks={tasks} removeTask={removeTask} toggleTaskCompletion={toggleTaskCompletion} toggleTaskPriority={toggleTaskPriority} />
+          <TaskList tasks={tasks} removeTask={removeTask} toggleTaskCompletion={toggleTaskCompletion} toggleTaskPriority={toggleTaskPriority} updateTaskTitle={updateTaskTitle} />
         </div>
       </div>
       <Footer />

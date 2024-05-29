@@ -1,10 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 
-const Task = ({ task, removeTask, toggleTaskCompletion, toggleTaskPriority }) => {
+const Task = ({
+  task,
+  removeTask,
+  toggleTaskCompletion,
+  toggleTaskPriority,
+  updateTaskTitle,
+}) => {
   const [showPopup, setShowPopup] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedTitle, setEditedTitle] = useState(task.title);
   const popupRef = useRef(null);
 
-  // Popups disappear when you click outside of them
   const togglePopup = () => {
     setShowPopup(!showPopup);
   };
@@ -12,60 +19,97 @@ const Task = ({ task, removeTask, toggleTaskCompletion, toggleTaskPriority }) =>
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setShowPopup(false);
+      setIsEditing(false);
     }
   };
 
   useEffect(() => {
     if (showPopup) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     } else {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showPopup]);
 
+  const handleEdit = () => {
+    setIsEditing(true);
+    setShowPopup(false);
+  };
+
+  const handleSave = () => {
+    updateTaskTitle(task.id, editedTitle);
+    setIsEditing(false);
+  };
+
   return (
-    <div key={task.id} className="relative my-4 min-w-72 max-w-72 whitespace-normal lg:min-w-96 lg:max-w-96">
-      <div
-        className={`p-3 rounded-lg bg-transparent border border-white lg:text-xl text-slate-100 placeholder-gray-300 focus:outline-none relative ${
-          task.completed ? 'line-through' : 'no-underline'
-        }`}
-      >
-        <p className="text-slate-100 text-sm md:text-xl font-semibold whitespace-break-spaces">{task.title}</p>
-        
-        <button
-          onClick={togglePopup}
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-100 hover:text-gray-400 focus:outline-none"
-        >
-          <img src="images/dots.svg" alt="three dots" className='w-6 md:w-8 invert' />
-        </button>
-        
-        {showPopup && (
-          <div ref={popupRef} className="absolute right-4 top-full mt-2 bg-gray-800 border border-gray-600 rounded-lg shadow-lg p-2 z-10">
+    <div key={task.id} className="my-4 w-full max-w-lg mx-auto">
+      <div className={`p-3 rounded-lg bg-transparent border border-white text-slate-100 placeholder-gray-300 focus:outline-none flex justify-between items-center ${task.completed ? 'line-through' : 'no-underline'}`}>
+        {isEditing ? (
+          <div className="flex items-center w-full">
+            <input
+              type="text"
+              value={editedTitle}
+              onChange={(e) => setEditedTitle(e.target.value)}
+              className="flex-grow bg-transparent border-none text-slate-100 focus:outline-none"
+            />
             <button
-              onClick={() => toggleTaskCompletion(task.id)}
-              className="block text-green-500 hover:text-green-700 focus:outline-none mb-2"
+              onClick={handleSave}
+              className="ml-2 px-2 py-1 bg-blue-400 text-slate-100 rounded hover:bg-blue-500 transition ease-in-out duration-300"
             >
-              Complete
-            </button>
-            <button
-              onClick={() => toggleTaskPriority(task.id)}
-              className="block text-yellow-500 hover:text-yellow-700 focus:outline-none mb-2"
-            >
-              Priority
-            </button>
-            <button
-              onClick={() => removeTask(task.id)}
-              className="block text-red-500 hover:text-red-700 focus:outline-none"
-            >
-              
-              Delete
+              Save
             </button>
           </div>
+        ) : (
+          <div className="flex-grow text-sm md:text-xl font-semibold whitespace-break-spaces">{task.title}</div>
         )}
+        
+        <div className="relative flex items-center">
+          <button
+            onClick={togglePopup}
+            className="ml-2 text-slate-100 hover:text-gray-400 focus:outline-none transition ease-in-out duration-300"
+          >
+            <img src="images/dots.svg" alt="three dots" className='w-6 md:w-8 invert' />
+          </button>
+          
+          {showPopup && (
+            <div
+              ref={popupRef}
+              className={`absolute top-full right-0 w-auto mt-2 bg-gray-800 border border-gray-600 rounded-lg shadow-lg p-2 z-10 transition-opacity duration-300 transform ${
+                showPopup ? "opacity-100 scale-100" : "opacity-0 scale-95"
+              }`}
+              style={{ transitionProperty: 'opacity, transform' }}
+            >
+              <button
+                onClick={() => toggleTaskCompletion(task.id)}
+                className="block p-2 text-lime-300 hover:text-lime-500 focus:outline-none mb-2 transition ease-in-out duration-300"
+              >
+                Complete
+              </button>
+              <button
+                onClick={() => toggleTaskPriority(task.id)}
+                className="block p-2 text-amber-300 hover:text-amber-500 focus:outline-none mb-2 transition ease-in-out duration-300"
+              >
+                Priority
+              </button>
+              <button
+                onClick={handleEdit}
+                className="block p-2 text-sky-300 hover:text-sky-500 focus:outline-none mb-2 transition ease-in-out duration-300"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => removeTask(task.id)}
+                className="block p-2 text-red-300 hover:text-red-500 focus:outline-none transition ease-in-out duration-300"
+              >
+                Delete
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import Task from './Task';
 
-const TaskList = ({ tasks, removeTask, toggleTaskCompletion, toggleTaskPriority }) => {  
+const TaskList = ({ tasks, removeTask, toggleTaskCompletion, toggleTaskPriority, updateTaskTitle }) => {  
 
   // Filter priority tasks
   const priorityTasks = tasks.filter(task => task.priority && !task.completed);
@@ -13,12 +13,12 @@ const TaskList = ({ tasks, removeTask, toggleTaskCompletion, toggleTaskPriority 
   const completedTasks = tasks.filter(task => task.completed);
 
   return (
-    <div className="mt-4">
+    <div className="mt-4 max-w-lg w-full">
       {/* Priority tasks */}
       {priorityTasks.length > 0 && (
         <>
-          <div className="text-lg font-semibold text-yellow-500 mb-2">Priority</div>
-          <div className="border-b border-yellow-500 mb-4"></div>
+          <div className="text-3xl font-semibold text-amber-300 mb-2">Priority</div>
+          <div className="border-b border-amber-300 mb-4"></div>
           {priorityTasks.map(task => (
             <Task
               key={task.id}
@@ -26,6 +26,7 @@ const TaskList = ({ tasks, removeTask, toggleTaskCompletion, toggleTaskPriority 
               removeTask={removeTask}
               toggleTaskCompletion={toggleTaskCompletion}
               toggleTaskPriority={toggleTaskPriority}
+              updateTaskTitle={updateTaskTitle}
             />
           ))}
         </>
@@ -34,8 +35,8 @@ const TaskList = ({ tasks, removeTask, toggleTaskCompletion, toggleTaskPriority 
       {/* Non-priority tasks */}
       {nonPriorityTasks.length > 0 && (
         <>
-          <div className="text-lg font-semibold text-slate-900 mb-2">Other Tasks</div>
-          <div className="border-b border-slate-900 mb-4"></div>
+          <div className="text-3xl font-semibold text-slate-100 mb-2">Other Tasks</div>
+          <div className="border-b border-slate-100 mb-4"></div>
           {nonPriorityTasks.map(task => (
             <Task
               key={task.id}
@@ -43,6 +44,7 @@ const TaskList = ({ tasks, removeTask, toggleTaskCompletion, toggleTaskPriority 
               removeTask={removeTask}
               toggleTaskCompletion={toggleTaskCompletion}
               toggleTaskPriority={toggleTaskPriority}
+              updateTaskTitle={updateTaskTitle}
             />
           ))}
         </>
@@ -51,8 +53,8 @@ const TaskList = ({ tasks, removeTask, toggleTaskCompletion, toggleTaskPriority 
       {/* Completed tasks! */}
       {completedTasks.length > 0 && (
         <>
-          <div className='text-lg font-semibold text-green-600 mb-2'>Completed tasks</div>
-          <div className="border-b border-green-600 mb-4"></div>
+          <div className='text-3xl font-semibold text-lime-300 mb-2'>Completed tasks</div>
+          <div className="border-b border-lime-300 mb-4"></div>
           {completedTasks.map(task => (
             <Task
               key={task.id}
@@ -60,6 +62,7 @@ const TaskList = ({ tasks, removeTask, toggleTaskCompletion, toggleTaskPriority 
               removeTask={removeTask}
               toggleTaskCompletion={toggleTaskCompletion}
               toggleTaskPriority={toggleTaskPriority}
+              updateTaskTitle={updateTaskTitle}
             />
           ))}
         </>
