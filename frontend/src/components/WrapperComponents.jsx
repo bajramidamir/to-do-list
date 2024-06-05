@@ -1,7 +1,7 @@
 import React from "react";
 
 export const MainWrapper = ({ children }) => (
-  <div className="min-h-screen font-jost flex flex-col items-center bg-gradient-to-br from-teal-800 to-teal-500">
+  <div className="min-h-screen font-jost flex flex-col items-center bg-gradient-to-br from-teal-700 to-teal-400 dark:from-gray-800 dark:to-gray-600">
     {children}
   </div>
 );

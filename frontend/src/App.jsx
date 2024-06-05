@@ -5,6 +5,7 @@ import {
   Footer,
   InputField,
   TaskList,
+  DarkModeButton,
   MainWrapper,
   CenterWrapper,
   ContentWrapper,
@@ -14,7 +15,7 @@ import {
 const App = () => {
   const API = import.meta.env.VITE_API_URL; // dotenv api endpoint
   const [tasks, setTasks] = useState([]);
-
+  
   // useEffect to load all the tasks
   useEffect(() => {
     fetch(`${API}/api/tasks`)
@@ -123,6 +124,7 @@ const App = () => {
         </ContentWrapper>
       </CenterWrapper>
       <Footer />
+      <DarkModeButton />
     </MainWrapper>
   );
 };
