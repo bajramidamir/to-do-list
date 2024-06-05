@@ -12,18 +12,19 @@ import {
 } from "./components";
 
 const App = () => {
+  const API = import.meta.env.VITE_API_URL; // dotenv api endpoint
   const [tasks, setTasks] = useState([]);
 
   // useEffect to load all the tasks
   useEffect(() => {
-    fetch("http://localhost:5000/api/tasks")
+    fetch(`${API}/api/tasks`)
       .then((response) => response.json())
       .then((data) => setTasks(data.tasks))
       .catch((error) => console.error("Error fetching tasks:", error));
   }, [tasks]);
 
   const addTask = (taskTitle) => {
-    fetch("http://localhost:5000/api/tasks", {
+    fetch(`${API}/api/tasks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -36,7 +37,7 @@ const App = () => {
   };
 
   const removeTask = (taskId) => {
-    fetch(`http://localhost:5000/api/tasks/${taskId}`, {
+    fetch(`${API}/api/tasks/${taskId}`, {
       method: "DELETE",
     })
       .then(() => {
@@ -50,7 +51,7 @@ const App = () => {
     const task = tasks.find((task) => task.id === taskId);
     const updatedTask = { ...task, completed: !task.completed };
 
-    fetch(`http://localhost:5000/api/tasks/${taskId}`, {
+    fetch(`${API}/api/tasks/${taskId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -70,7 +71,7 @@ const App = () => {
     const task = tasks.find((task) => task.id === taskId);
     const updatedTask = { ...task, priority: !task.priority };
 
-    fetch(`http://localhost:5000/api/tasks/${taskId}`, {
+    fetch(`${API}/api/tasks/${taskId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -89,7 +90,7 @@ const App = () => {
   const updateTaskTitle = (taskId, newTitle) => {
     const task = tasks.find((task) => task.id === taskId);
     const updatedTask = { ...task, title: newTitle };
-    fetch(`http://localhost:5000/api/tasks/${taskId}`, {
+    fetch(`${API}/api/tasks/${taskId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
