@@ -13,16 +13,28 @@ import {
 } from "./components";
 
 const App = () => {
-  const API = import.meta.env.VITE_API_URL; // dotenv api endpoint
+  //const API = import.meta.env.VITE_API_URL; // dotenv api endpoint
+  const API = "http://localhost:3000";
   const [tasks, setTasks] = useState([]);
+
+  const fetchTasks = async () => {
+    try {
+      const response = await fetch(`${API}/api/tasks`);
+      const data = await response.json();
+      if (data && data.data) {
+        setTasks(data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
+  };
 
   // useEffect to load all the tasks
   useEffect(() => {
-    fetch(`${API}/api/tasks`)
-      .then((response) => response.json())
-      .then((data) => setTasks(data.tasks))
-      .catch((error) => console.error("Error fetching tasks:", error));
-  }, [tasks]);
+    fetchTasks();
+    const interval = setInterval(fetchTasks, 2000);
+    return () => clearInterval(interval);
+  }, []);
 
   const addTask = (taskTitle) => {
     fetch(`${API}/api/tasks`, {
