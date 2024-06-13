@@ -23,3 +23,9 @@ export const Divider = () => (
 export const TaskWrapper = ({ children }) => (
   <div className="mt-4 max-w-lg w-full">{children}</div>
 );
+
+export const AlertWrapper = ({ children }) => (
+  <div className="fixed top-4 right-4">
+    {children}
+  </div>
+);

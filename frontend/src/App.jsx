@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import {
   Header,
@@ -10,42 +10,86 @@ import {
   CenterWrapper,
   ContentWrapper,
   Divider,
+  Alert,
+  AlertWrapper,
 } from "./components";
 
 const App = () => {
-  const API = import.meta.env.VITE_API_URL; // dotenv api endpoint
+  const API = "http://localhost:3000";
   const [tasks, setTasks] = useState([]);
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertSeverity, setAlertSeverity] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
+
+  const fetchTasks = async () => {
+    try {
+      const response = await fetch(`${API}/api/tasks`);
+      const data = await response.json();
+      if (data && data.data) {
+        setTasks(data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
+  };
 
   // useEffect to load all the tasks
   useEffect(() => {
-    fetch(`${API}/api/tasks`)
-      .then((response) => response.json())
-      .then((data) => setTasks(data.tasks))
-      .catch((error) => console.error("Error fetching tasks:", error));
-  }, [tasks]);
+    fetchTasks();
+  }, []);
 
   const addTask = (taskTitle) => {
+    setAlertVisible(false);
+    const newTask = { title: taskTitle };
     fetch(`${API}/api/tasks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ title: taskTitle }),
+      body: JSON.stringify(newTask),
     })
       .then((response) => response.json())
-      .then((newTask) => setTasks([...tasks, newTask]))
-      .catch((error) => console.error("Error adding task:", error));
+      .then((response) => {
+        if (response.message) {
+          setAlertMessage(response.message);
+          setAlertSeverity("success");
+          setAlertVisible(true);
+          setTasks((prevTasks) => [...prevTasks, response.data]);
+        } else {
+          throw new Error("Invalid Server Response!");
+        }
+      })
+      .catch((error) => {
+        console.error("Error deleting task:", error);
+        setAlertMessage("Error Adding Task!");
+        setAlertSeverity("error");
+        setAlertVisible(true);
+      });
   };
 
   const removeTask = (taskId) => {
+    setAlertVisible(false);
     fetch(`${API}/api/tasks/${taskId}`, {
       method: "DELETE",
     })
-      .then(() => {
-        const updatedTasks = tasks.filter((task) => task.id !== taskId);
-        setTasks(updatedTasks);
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.message) {
+          setAlertMessage(response.message);
+          setAlertSeverity("success");
+          setAlertVisible(true);
+          const updatedTasks = tasks.filter((task) => task.id !== taskId);
+          setTasks(updatedTasks);
+        } else {
+          throw new Error("Invalid server response");
+        }
       })
-      .catch((error) => console.error("Error deleting task:", error));
+      .catch((error) => {
+        console.error("Error deleting task:", error);
+        setAlertMessage("Error Deleting Task!");
+        setAlertSeverity("error");
+        setAlertVisible(true);
+      });
   };
 
   const toggleTaskCompletion = (taskId) => {
@@ -84,6 +128,7 @@ const App = () => {
           t.id === taskId ? updatedTask : t
         );
         setTasks(updatedTasks);
+        fetchTasks();
       })
       .catch((error) => console.error("Error updating task:", error));
   };
@@ -149,6 +194,13 @@ const App = () => {
 
   return (
     <MainWrapper>
+      <AlertWrapper>
+        <Alert
+          visible={alertVisible}
+          message={alertMessage}
+          severity={alertSeverity}
+        />
+      </AlertWrapper>
       <CenterWrapper>
         <ContentWrapper>
           <Header />
