@@ -15,7 +15,7 @@ import {
 } from "./components";
 
 const App = () => {
-  const API = "http://localhost:3000";
+  const API = import.meta.env.VITE_API_URL;
   const [tasks, setTasks] = useState([]);
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertSeverity, setAlertSeverity] = useState("");
