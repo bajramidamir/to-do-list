@@ -13,7 +13,7 @@ exports.createTask = async (req, res) => {
   try {
     const { title, priority, completed, recurring } = req.body;
     const newTask = await Task.create({ title, priority, completed, recurring });
-    res.json({ data: newTask });
+    res.json({ data: newTask, message: "Task Added Successfully!" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -42,8 +42,9 @@ exports.updateTask = async (req, res) => {
     task.priority = priority;
     task.completed = completed;
     task.recurring = recurring;
+    task.updatedAt = new Date();
     await task.save();
-    res.json({ data: task });
+    res.json({ data: task, message: "Task Updated Successfully!" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -56,7 +57,7 @@ exports.deleteTask = async (req, res) => {
       return res.status(404).json({ error: 'Task not found' });
     }
     await task.destroy();
-    res.json({ message: 'Task deleted' });
+    res.json({ message: 'Task Deleted Successfully!' });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

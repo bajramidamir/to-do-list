@@ -31,7 +31,6 @@ const Task = ({
     } else {
       document.removeEventListener("mousedown", handleClickOutside);
     }
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -50,7 +49,9 @@ const Task = ({
   const handleMarkDoneForToday = () => {
     markTaskDoneForToday(task.id);
     setShowPopup(false);
-  }
+  };
+
+  const formattedDate = new Date(task.updatedAt).toLocaleString();
 
   return (
     <div key={task.id} className="my-4 w-full max-w-lg mx-auto">
@@ -92,64 +93,64 @@ const Task = ({
             />
           </button>
           {showPopup && (
-  <div
-    ref={popupRef}
-    className={`absolute top-full right-0 w-auto mt-2 bg-gray-800 border border-gray-600 rounded-lg shadow-lg p-2 z-10 transition-opacity duration-300 transform ${
-      showPopup ? "opacity-100 scale-100" : "opacity-0 scale-95"
-    }`}
-    style={{ transitionProperty: "opacity, transform" }}
-  >
-    {/* This button is only visible for non-recurring tasks */}
-    <button
-      onClick={() => toggleTaskCompletion(task.id)}
-      className={`block p-2 text-lime-300 hover:text-lime-500 focus:outline-none mb-2 transition ease-in-out duration-300 ${
-        task.recurring ? "hidden" : ""
-      }`}
-    >
-      {task.completed ? "Reopen" : "Complete"}
-    </button>
-    
-    {/* This button is only visible for recurring tasks */}
-    <button
-      onClick={handleMarkDoneForToday}
-      className={`block p-2 text-lime-300 hover:text-lime-500 focus:outline-none mb-2 transition ease-in-out duration-300 ${
-        task.recurring && !task.completed ? "" : "hidden"
-      }`}
-    >
-      Mark Done for Today
-    </button>
-    
-    <button
-      onClick={() => toggleTaskPriority(task.id)}
-      className="block p-2 text-amber-300 hover:text-amber-500 focus:outline-none mb-2 transition ease-in-out duration-300"
-    >
-      {task.priority ? "Set as Non-priority" : "Set as Priority"}
-    </button>
-    
-    <button
-      onClick={() => toggleTaskRecurring(task.id)}
-      className="block p-2 text-sky-300 hover:text-sky-500 focus:outline-none mb-2 transition ease-in-out duration-300"
-    >
-      {task.recurring ? "Set as Non-recurring" : "Set as Recurring"}
-    </button>
-    
-    <button
-      onClick={handleEdit}
-      className="block p-2 text-sky-300 hover:text-sky-500 focus:outline-none mb-2 transition ease-in-out duration-300"
-    >
-      Edit
-    </button>
-    
-    <button
-      onClick={() => removeTask(task.id)}
-      className="block p-2 text-red-300 hover:text-red-500 focus:outline-none transition ease-in-out duration-300"
-    >
-      Delete
-    </button>
-  </div>
-)}
+            <div
+              ref={popupRef}
+              className={`absolute top-full right-0 w-auto mt-2 bg-gray-800 border border-gray-600 rounded-lg shadow-lg p-2 z-10 transition-opacity duration-300 transform ${
+                showPopup ? "opacity-100 scale-100" : "opacity-0 scale-95"
+              }`}
+              style={{ transitionProperty: "opacity, transform" }}
+            >
+              <button
+                onClick={() => toggleTaskCompletion(task.id)}
+                className={`block p-2 text-lime-300 hover:text-lime-500 focus:outline-none mb-2 transition ease-in-out duration-300 ${
+                  task.recurring ? "hidden" : ""
+                }`}
+              >
+                {task.completed ? "Reopen" : "Complete"}
+              </button>
 
+              <button
+                onClick={handleMarkDoneForToday}
+                className={`block p-2 text-lime-300 hover:text-lime-500 focus:outline-none mb-2 transition ease-in-out duration-300 ${
+                  task.recurring && !task.completed ? "" : "hidden"
+                }`}
+              >
+                Mark Done for Today
+              </button>
+
+              <button
+                onClick={() => toggleTaskPriority(task.id)}
+                className="block p-2 text-amber-300 hover:text-amber-500 focus:outline-none mb-2 transition ease-in-out duration-300"
+              >
+                {task.priority ? "Set as Non-priority" : "Set as Priority"}
+              </button>
+
+              <button
+                onClick={() => toggleTaskRecurring(task.id)}
+                className="block p-2 text-sky-300 hover:text-sky-500 focus:outline-none mb-2 transition ease-in-out duration-300"
+              >
+                {task.recurring ? "Set as Non-recurring" : "Set as Recurring"}
+              </button>
+
+              <button
+                onClick={handleEdit}
+                className="block p-2 text-sky-300 hover:text-sky-500 focus:outline-none mb-2 transition ease-in-out duration-300"
+              >
+                Edit
+              </button>
+
+              <button
+                onClick={() => removeTask(task.id)}
+                className="block p-2 text-red-300 hover:text-red-500 focus:outline-none transition ease-in-out duration-300"
+              >
+                Delete
+              </button>
+            </div>
+          )}
         </div>
+      </div>
+      <div className="text-sm text-gray-300 mt-1">
+        {`Last updated at: ${formattedDate}`}
       </div>
     </div>
   );
