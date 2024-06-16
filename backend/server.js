@@ -10,6 +10,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
+app.use("/", infoRoutes);
 app.use("/api", taskRoutes);
 
 // cron job to refresh recurring tasks at midnight
