@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+// eslint-disable-next-line no-unused-vars
+import React, { useState, useEffect } from "react";
 
 import {
   Header,
@@ -15,7 +16,8 @@ import {
 } from "./components";
 
 const App = () => {
-  const API = import.meta.env.VITE_API_URL;
+  const API = "http://localhost:3000";
+  //const API = import.meta.env.VITE_API_URL;
   const [tasks, setTasks] = useState([]);
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertSeverity, setAlertSeverity] = useState("");
@@ -60,7 +62,7 @@ const App = () => {
         }
       })
       .catch((error) => {
-        console.error("Error deleting task:", error);
+        console.error("Error Adding Task:", error);
         setAlertMessage("Error Adding Task!");
         setAlertSeverity("error");
         setAlertVisible(true);
@@ -154,7 +156,7 @@ const App = () => {
 
   const toggleTaskRecurring = (taskId) => {
     const task = tasks.find((task) => task.id === taskId);
-    const updatedTask = { ...task, recurring: !task.recurring };
+    const updatedTask = { ...task, recurring: !task.recurring, setRecurringAt: new Date() };
 
     fetch(`${API}/api/tasks/${taskId}`, {
       method: "PUT",

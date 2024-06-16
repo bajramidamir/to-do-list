@@ -33,6 +33,9 @@ const Task = sequelize.define('task', {
   updatedAt: {
     type: DataTypes.DATE,
     allowNull: false
+  },
+  setRecurringAt: {
+    type: DataTypes.DATE,
   }
 });
 
