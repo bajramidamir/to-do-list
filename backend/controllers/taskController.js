@@ -17,7 +17,6 @@ exports.createTask = async (req, res) => {
       priority,
       completed,
       recurring,
-      
     });
     res.json({ data: newTask, message: "Task Added Successfully!" });
   } catch (err) {

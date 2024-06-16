@@ -1,5 +1,4 @@
-import React from "react";
-
+/* eslint-disable react/prop-types */
 export const MainWrapper = ({ children }) => (
   <div className="min-h-screen font-jost flex flex-col items-center bg-gradient-to-br from-teal-700 to-teal-400 dark:from-gray-800 dark:to-gray-600">
     {children}
@@ -25,7 +24,5 @@ export const TaskWrapper = ({ children }) => (
 );
 
 export const AlertWrapper = ({ children }) => (
-  <div className="fixed top-4 right-4">
-    {children}
-  </div>
+  <div className="fixed top-4 right-4">{children}</div>
 );

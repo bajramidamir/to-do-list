@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const DarkModeButton = () => {
-  const storedDarkMode = localStorage.getItem('darkMode') === 'true';
+  const storedDarkMode = localStorage.getItem("darkMode") === "true";
   const [darkMode, setDarkMode] = useState(storedDarkMode);
 
   useEffect(() => {
-    document.body.classList.toggle('dark', storedDarkMode);
-  }, []);
-  
+    document.body.classList.toggle("dark", storedDarkMode);
+  }, [storedDarkMode]);
+
   const toggleDarkMode = () => {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
-    localStorage.setItem('darkMode', newDarkMode.toString());
-    document.body.classList.toggle('dark', newDarkMode);
+    localStorage.setItem("darkMode", newDarkMode.toString());
   };
 
   return (
