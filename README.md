@@ -11,6 +11,16 @@ This is a web application designed to help users manage their tasks efficiently.
 -   Responsive
 - Works like a charm
 
+## Live Demo
+
+You can interact with the live demo of our application:
+
+- **Backend API:** [https://to-do-list-3pqn.onrender.com](https://to-do-list-3pqn.onrender.com)
+- **Frontend Application:** [https://damirbajramihulkapps.netlify.app/](https://damirbajramihulkapps.netlify.app/)
+
+Feel free to explore the functionalities and features of our application!
+
+
 # Technologies and Programming Languages
 
 
@@ -57,4 +67,4 @@ Then go to the localhost and port specified in the terminal (default is localhos
 
 `npm install`
 
-`node server.js`
+`node run start`
