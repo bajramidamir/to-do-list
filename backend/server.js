@@ -3,6 +3,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const cron = require("node-cron");
 const taskRoutes = require("./routes/taskRoutes");
+const infoRoutes = require("./routes/infoRoutes");
 const sequelize = require("./config/database");
 const { refreshRecurringTask } = require("./controllers/taskController");
 
