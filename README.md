@@ -26,8 +26,12 @@ This is a web application designed to help users manage their tasks efficiently.
 
 -   Node.js - A JavaScript runtime built on Chrome's V8 JavaScript engine.
 -   Express - A minimal and flexible Node.js web application framework.
--   SQLite3 - A lightweight database engine.
+-   PostgreSQL - An advanced, powerful, and open-source relational database management system known for its robustness and scalability.
 -   dotenv - A zero-dependency module that loads environment variables from a `.env` file into `process.env`.
+
+### Hosting
+-   ElephantSQL - A reliable cloud database service offering PostgreSQL hosting with seamless scalability and management.
+-   Render - A modern cloud platform providing effortless deployment, scaling, and management of web applications, with a focus on simplicity and performance.
 
 ## Explanation on How to Clone, Install, and Start the Application
 
