@@ -16,8 +16,7 @@ import {
 } from "./components";
 
 const App = () => {
-  const API = "http://localhost:3000";
-  //const API = import.meta.env.VITE_API_URL;
+  const API = import.meta.env.VITE_API_URL;
   const [tasks, setTasks] = useState([]);
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertSeverity, setAlertSeverity] = useState("");
@@ -38,6 +37,7 @@ const App = () => {
   // useEffect to load all the tasks
   useEffect(() => {
     fetchTasks();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const addTask = (taskTitle) => {
@@ -156,7 +156,11 @@ const App = () => {
 
   const toggleTaskRecurring = (taskId) => {
     const task = tasks.find((task) => task.id === taskId);
-    const updatedTask = { ...task, recurring: !task.recurring, setRecurringAt: new Date() };
+    const updatedTask = {
+      ...task,
+      recurring: !task.recurring,
+      setRecurringAt: new Date(),
+    };
 
     fetch(`${API}/api/tasks/${taskId}`, {
       method: "PUT",

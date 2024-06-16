@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react/prop-types */
+import { useState, useEffect } from "react";
 
 export const SectionTitle = ({ title, className }) => (
   <div className={`text-3xl font-semibold mb-2 ${className}`}>{title}</div>

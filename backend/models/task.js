@@ -1,30 +1,30 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/database");
 
-const Task = sequelize.define('task', {
+const Task = sequelize.define("task", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
-    primaryKey: true
+    primaryKey: true,
   },
   title: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   priority: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
-    defaultValue: false
+    defaultValue: false,
   },
   completed: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
-    defaultValue: false
+    defaultValue: false,
   },
   recurring: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
-    defaultValue: false
+    defaultValue: false,
   },
   createdAt: {
     type: DataTypes.DATE,
@@ -32,11 +32,11 @@ const Task = sequelize.define('task', {
   },
   updatedAt: {
     type: DataTypes.DATE,
-    allowNull: false
+    allowNull: false,
   },
   setRecurringAt: {
     type: DataTypes.DATE,
-  }
+  },
 });
 
 module.exports = Task;
